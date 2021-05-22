@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "ctype.h": "c",
+        "math.h": "c",
+        "funciones.h": "c",
+        "struct.h": "c",
+        "string.h": "c",
+        "cmath": "c",
+        "grafos.h": "c"
+    }
+}
