@@ -4,14 +4,14 @@
 #include <math.h>
 #include <ctype.h>
 #include "struct.h"
-#include "grafos.h"
 #include "funciones.h"
 #include "list.h"
+#include "Map.h"
 
 int main (){
     FILE * texto = fopen ("tarea3_tsp.txt", "r");
     List * lista = createList();
-    List * rutas = createList();
+    HashMap * rutas;
     int cont = 0;
     int numero = -1;
     while(numero != 0){
@@ -44,14 +44,16 @@ int main (){
                         matriz[i][j]=distancia(i,j,lista);
                     }
                 }
+                rutas=createMap(cont);  
                 break;
+                
             }
             case 2: break;
             case 3: break;
-            case 4: crearRuta(cont, lista, rutas); break;
+            case 4: /*crearRuta(cont, lista, rutas); */break;
             case 5: crearRutaAleatoria(cont, lista, rutas);break;
             case 6: break;
-            case 7: break;
+            case 7: mostrarRutas(rutas); break;
             case 8: break;
             case 0: break;
             default: printf("Opcion no valida.\n"); break;

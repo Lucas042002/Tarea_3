@@ -6,6 +6,7 @@
         "struct.h": "c",
         "string.h": "c",
         "cmath": "c",
-        "grafos.h": "c"
+        "grafos.h": "c",
+        "time.h": "c"
     }
 }
