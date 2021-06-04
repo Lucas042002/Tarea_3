@@ -18,5 +18,5 @@ int get_y (coordenadas * n);
 float get_distancia (coordenadas * n);
 int get_yaPaso (coordenadas * n);
 int get_nEntrega (coordenadas * n);
-
+void modificarYapaso( coordenadas *aux);
 #endif /* struct_h */

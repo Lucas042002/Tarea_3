@@ -28,16 +28,15 @@ void get_rutasPosibles(List *lista,int cont,coordenadas* cord){
     coordenadas**vector = malloc (sizeof(coordenadas)*cont);
     int i=0;
     while (aux!=NULL){
-        if (aux->yaPaso ==0){ 
+        if (aux->yaPaso==0){ 
             aux->distancia = distancia (cord->numeroEntrega, aux->numeroEntrega, lista);
-            aux->yaPaso==1;
             vector[i]=aux;
             i++;
         }
         aux=next(lista);
     }
     
-    /*coordenadas *swap;
+    coordenadas *swap;
     for (int c = 0 ; c < i-1 ; c++){
         for (int d = 0 ; d < i - c-1; d++){
             
@@ -48,15 +47,18 @@ void get_rutasPosibles(List *lista,int cont,coordenadas* cord){
                 
             }
         }
-    }*/
+    }
 
     for (int k=0;k<i;k++){
-        printf ("distancia %.2f - id = %d\n",vector[k]->distancia, vector[k]->numeroEntrega);
+        if ((vector[k]->yaPaso)==0){
+            printf ("distancia %.2f - id = %d\n",vector[k]->distancia, vector[k]->numeroEntrega);
+        }
     }
         
     free(vector);
 
 }
+
 
 nombreruta *crearruta(char *nombre,int *vector,int cont){
   nombreruta *ruta = (nombreruta *) malloc (sizeof(nombreruta));
@@ -93,5 +95,8 @@ int get_yaPaso (coordenadas * n){
     return n->yaPaso;
 }
 
+void modificarYapaso( coordenadas *aux){
+    aux->yaPaso=1;
+}
 
 

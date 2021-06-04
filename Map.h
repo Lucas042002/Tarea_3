@@ -10,5 +10,5 @@ void eraseMap(HashMap * map,  char * key);
 void * searchMap(HashMap * map,  char * key);
 void * firstMap(HashMap * map);
 void * nextMap(HashMap * map);
-
+char get_key(Pair* map);
 #endif /* MAP_h */

@@ -12,9 +12,10 @@
 
 int *generarVector(int cont);
 int ImportarArchivo(FILE *texto, List * lista);
-void crearRuta(int cont, List *lista, List *rutas);
+void crearRuta(int cont, List *lista, HashMap *rutas);
 float distancia(int i,int j, List * lista);
 void crearRutaAleatoria(int cont, List *lista, HashMap *rutas);
-void mostrarRutas(HashMap *rutas);
+void mostrarRutas(HashMap *rutas, int cont);
+void BubbleSort(HashMap *ruta);
 
 #endif /* funciones_h */

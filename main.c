@@ -50,10 +50,10 @@ int main (){
             }
             case 2: break;
             case 3: break;
-            case 4: /*crearRuta(cont, lista, rutas); */break;
+            case 4: crearRuta(cont, lista, rutas); break;
             case 5: crearRutaAleatoria(cont, lista, rutas);break;
             case 6: break;
-            case 7: mostrarRutas(rutas); break;
+            case 7: mostrarRutas(rutas, cont); break;
             case 8: break;
             case 0: break;
             default: printf("Opcion no valida.\n"); break;
