@@ -152,3 +152,8 @@ void * nextMap(HashMap * map) {
     
     return NULL;
 }
+
+char* get_key(HashMap *map){
+    return map->buckets[map->current]->key;
+}
+

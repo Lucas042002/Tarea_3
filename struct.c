@@ -99,4 +99,61 @@ void modificarYapaso( coordenadas *aux){
     aux->yaPaso=1;
 }
 
+void entregasCercanas (List* lista, int cont){
+    
+    int x, y;
+    List *lista2 = createList(); //copia de lista modificable en funcion
+    
+
+    printf("Ingrese variable X:\n");
+    scanf("%d", &x);
+    printf("Ingrese variable Y:\n");
+    scanf("%d", &y);
+    
+    //Se copia la lista original, en una modificable
+    coordenadas*auxLista=first(lista);
+    while (auxLista!=NULL){
+        coordenadas*aux3=crearCoordenadas(get_nEntrega(auxLista),get_x(auxLista),get_y(auxLista),get_distancia(auxLista),0);
+        pushBack(lista2,aux3);
+        auxLista=next(lista);
+    }
+    //Se guarda la coordenada de inicio como la ultima de la lista modificable
+    coordenadas*cord;
+  
+    cord = crearCoordenadas(cont,x,y,0,0);
+    pushBack(lista2,cord);
+ 
+    coordenadas*aux= first(lista2);
+    coordenadas**vector= malloc(sizeof(coordenadas)*cont);
+    int i=0;
+    
+    while (aux!=NULL){
+         
+            aux->distancia = distancia (cord->numeroEntrega, aux->numeroEntrega, lista2);
+           
+            vector[i]=aux;
+             
+           i++;
+        
+        aux=next(lista2);
+    }
+    
+    coordenadas *swap;
+    for (int c = 0 ; c < i -1; c++){
+        for (int d = 0 ; d < i- c-1; d++){
+            if (vector[d]->distancia > vector[d+1]->distancia){
+                swap       = vector[d];
+                vector[d]   = vector[d+1];
+                vector[d+1] = swap;   
+            }
+        }
+    }
+    
+
+    for (int k=1;k<4;k++){
+        
+            printf ("distancia %.2f - id = %d\n",vector[k]->distancia, vector[k]->numeroEntrega);
+        
+    }
+}
 

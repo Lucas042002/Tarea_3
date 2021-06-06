@@ -14,6 +14,7 @@ int main (){
     HashMap * rutas;
     int cont = 0;
     int numero = -1;
+    int total_rutas=0;
     while(numero != 0){
         
         printf("-----------------------------------------\n");
@@ -38,23 +39,16 @@ int main (){
         switch(numero){
             case 1: {
                 cont=ImportarArchivo(texto,lista); 
-                float matriz[cont][cont];
-                for (int i=1;i<cont;i++){
-                    for(int j=1;j<cont;j++){
-                        matriz[i][j]=distancia(i,j,lista);
-                    }
-                }
                 rutas=createMap(cont);  
-                break;
-                
+                break;  
             }
-            case 2: break;
-            case 3: break;
+            case 2: distancia_2puntos(lista); break;
+            case 3: entregasCercanas(lista,cont);break;
             case 4: crearRuta(cont, lista, rutas); break;
             case 5: crearRutaAleatoria(cont, lista, rutas);break;
-            case 6: break;
+            case 6: mejorarRuta(cont, lista, rutas);break;
             case 7: mostrarRutas(rutas, cont); break;
-            case 8: break;
+            case 8: mejorRuta(cont,lista, rutas, &total_rutas);break;
             case 0: break;
             default: printf("Opcion no valida.\n"); break;
         }

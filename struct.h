@@ -10,6 +10,7 @@
 typedef struct coordenadas coordenadas;
 typedef struct nombreruta nombreruta;
 
+void entregasCercanas (List* lista, int cont);
 coordenadas *crearCoordenadas(int n,int x,int y,float distancia, int yaPaso);
 void get_rutasPosibles(List *lista,int cont,coordenadas* cord);
 nombreruta *crearruta(char *nombre,int *vector, int cont);
