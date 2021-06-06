@@ -65,7 +65,7 @@ int  ImportarArchivo(FILE *texto, List * lista){
     coordenadas*cord;
     int cont = 1;
     int n,contLineas = 0;
-    printf("Cuantas lineas va a leer: ");
+    printf("Ingrese cantidad de Entregas a leer: ");
     scanf ("%d", &n);
     printf("\n");
     while (!feof(texto) ){
@@ -85,7 +85,7 @@ int  ImportarArchivo(FILE *texto, List * lista){
                 cont++;
                 
             }
-            if (cont==n)break;
+            if (cont==n+1)break;
         }
     }
     return cont;
@@ -99,7 +99,7 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
     scanf("%d", &x);
     printf("Ingrese variable Y:\n");
     scanf("%d", &y);
-    
+    printf("\n");
     //Se copia la lista original, en una modificable
     coordenadas*auxLista=first(lista);
     while (auxLista!=NULL){
@@ -122,6 +122,7 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
         
         printf("Ingrese id de la entrega:\n");
         scanf("%d", &id);
+        printf("\n");
         vector[i]=id;
         coordenadas*aux=first(lista2);
         while (aux!=NULL){
@@ -131,7 +132,7 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
                 modificarYapaso(aux);
                 cord=crearCoordenadas(get_nEntrega(aux),get_x(aux),get_y(aux),0,1);
                 cont_distancia += get_distancia(aux);
-                printf("Distancia elegida = %.2f\n",get_distancia(aux));
+                printf("Distancia elegida = %.2f.\n",get_distancia(aux));
                 printf("\n");
                 break;
             }
@@ -150,7 +151,7 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
     //coordenadas* ultima= crearCoordenadas(0,0,0, cont_distancia, 0);
     //pushBack(viaje, ultima);
     printf("\n");
-    printf("Distancia recorrida = %.2f\n",cont_distancia);
+    printf("Distancia recorrida total= %.2f.\n",cont_distancia);
 
     printf("\n");
     
@@ -169,53 +170,56 @@ void crearRutaAleatoria(int cont,List* lista,HashMap* rutas){
 
     coordenadas*aux3=first(lista);
     while (aux3!=NULL){
-        printf("%d -",get_nEntrega(aux3));
+        
+            printf("- %d -",get_nEntrega(aux3));
+        
         aux3=next(lista);
     }
     printf("\n");
-
+printf("\n");
     printf("Ingrese variable X:\n");
     scanf("%d", &x);
     printf("Ingrese variable Y:\n");
     scanf("%d", &y);
-
+printf("\n");
     //Se copia la lista original, en una modificable
     coordenadas*auxLista=first(lista);
     while (auxLista!=NULL){
-        coordenadas*aux3=crearCoordenadas(get_nEntrega(auxLista),get_x(auxLista),get_y(auxLista),get_distancia(auxLista),get_yaPaso(auxLista));
+        coordenadas*aux3=crearCoordenadas(get_nEntrega(auxLista),get_x(auxLista),get_y(auxLista),get_distancia(auxLista),0);
         pushBack(lista2,aux3);
         auxLista=next(lista);
     }
    
     //Se guarda la coordenada de inicio como la ultima de la lista modificable
     coordenadas*cord;
-    cord = crearCoordenadas(cont,x,y,0,0);
+    cord = crearCoordenadas(cont,x,y,0,1);
     pushBack(lista2,cord);
     
     int *vector,i = 0,id = 0;
     float cont_distancia=0;
     vector = generarVector(cont);
-
-    for (int i = 0 ;  i < cont ;i++ ){
-        if (i==cont-1)  printf("%d",vector[i]);
-        else printf("%d -> ",vector[i]);
+printf("\n");
+printf("Ruta aleatoria generada:\n");
+    for (int i = 1 ;  i < cont;i++ ){
+        if (i==cont-1)  printf("%d\n", vector[i]);
+        else printf("%d -> ", vector[i]);
     }
-    
-    while (i<cont){
-        printf("\n");
-        printf("CORD: numero id = %d\n",get_nEntrega(cord));
+    printf("\n");
+    while (i<cont-1){
+        
         get_rutasPosibles(lista2, cont ,cord);
         id=vector[i];
         coordenadas*aux=first(lista2);
         while (aux!=NULL){
             if (get_nEntrega(aux)==id){
+                modificarYapaso(aux);
                 popCurrent(lista2);
                 break;
             }
             aux=next(lista2);
         }
         if (i==cont-1){
-        coordenadas*cordAux = crearCoordenadas(id,get_x(cord),get_y(cord),get_distancia(cord),0);
+        coordenadas*cordAux = crearCoordenadas(id,get_x(cord),get_y(cord),get_distancia(cord),1);
             pushBack(viaje,cordAux);
         }
         i++;
@@ -223,15 +227,18 @@ void crearRutaAleatoria(int cont,List* lista,HashMap* rutas){
         coordenadas*aux2=first(lista2);
         while (aux2!=NULL){
             if (get_nEntrega(aux2)==id){
-                coordenadas*cordAux = crearCoordenadas(vector[i-1],get_x(cord),get_y(cord),get_distancia(aux2),0);
+                coordenadas*cordAux = crearCoordenadas(vector[i-1],get_x(cord),get_y(cord),get_distancia(aux2),1);
                 pushBack(viaje,cordAux);
                 cord = aux2;
                 cont_distancia += get_distancia(cord);
-                printf("Distancia elegida = %.2f\n",get_distancia(cord));
+                printf("Distancia elegida = %.2f.\n",get_distancia(cord));
                 break;
             }
             aux2=next(lista2);
         }
+        
+        printf("ID posicion actual: %d\n",get_nEntrega(cord));
+        printf("\n");
     }
 
     char*nombre=(char*)malloc(sizeof(char));
@@ -239,7 +246,7 @@ void crearRutaAleatoria(int cont,List* lista,HashMap* rutas){
     scanf("%s", nombre);
 
     printf("\n");
-    printf("Distancia recorrida = %.2f\n",cont_distancia);
+    printf("Distancia total recorrida = %.2f.\n",cont_distancia);
     //inserta la distancia total recorrida de la ruta y la guarda en la lista y luego en el mapa
     //coordenadas* ultima= crearCoordenadas(0,0,0, cont_distancia, 0);
     //pushBack(viaje, ultima);
@@ -254,7 +261,7 @@ void crearRutaAleatoria(int cont,List* lista,HashMap* rutas){
 
 
 void mostrarRutas(HashMap* rutas, int cont){
-    if (rutas == NULL){
+    if (rutas == NULL || get_size(rutas)==0){
         printf("Aun no hay ninguna ruta ingresada.\n");
         return;
     }
@@ -308,25 +315,34 @@ void mostrarRutas(HashMap* rutas, int cont){
         }
     }
     //imprime los valores de las rutas 
+    printf("NOMBRE\t\t\tRUTA\t\t\tDISTANCIA\n");
     for (int k=0;k<i; k++){
-        printf(" Nombre = %s / ", vectorAux[k].nombre);
-        printf("\n");
-        for(int c =0; c<cont; c++){
-            printf("%d / ", vectorAux[k].vec[c]);
+        
+        printf("%s\t  ", vectorAux[k].nombre);
+        
+        for(int c =0; c<cont-1; c++){
+            printf("%d /", vectorAux[k].vec[c]);
         }
-        printf(" distancia = %.2f / ", vectorAux[k].distancia);
+        printf("\t");
+        printf("%.2f ", vectorAux[k].distancia);
         printf("\n");
     }
     
 }
 
 void mejorarRuta(int cont, List *lista, HashMap *rutas){
+    if (rutas == NULL || get_size(rutas)==0){
+        printf("Aun no hay ninguna ruta ingresada.\n");
+        return;
+    }
+    
+    mostrarRutas(rutas, cont);
     List *lista2 = createList();
     List *viaje = createList();
     //Se copia la lista original, en una modificable
     coordenadas*auxLista=first(lista);
     while (auxLista!=NULL){
-        coordenadas*aux3=crearCoordenadas(get_nEntrega(auxLista),get_x(auxLista),get_y(auxLista),get_distancia(auxLista),get_yaPaso(auxLista));
+        coordenadas*aux3=crearCoordenadas(get_nEntrega(auxLista),get_x(auxLista),get_y(auxLista),get_distancia(auxLista),0);
         pushBack(lista2,aux3);
         auxLista=next(lista);
     }
@@ -514,9 +530,10 @@ void mejorRuta(int cont, List *lista, HashMap *rutas, int *total_rutas){
                 coordenadas*cordAux = crearCoordenadas(get_nEntrega(cord),get_x(cord),get_y(cord),get_distancia(aux),1);
                 pushBack(viaje,cordAux);
                 modificarYapaso(aux);
+                
                 cord=crearCoordenadas(get_nEntrega(aux),get_x(aux),get_y(aux),0,1);
                 cont_distancia += get_distancia(aux);
-                printf("Distancia elegida = %.2f\n",get_distancia(aux));
+                printf("Distancia elegida = %.2f.\n",get_distancia(aux));
                 printf("\n");
                 break;
             }
@@ -536,9 +553,9 @@ void mejorRuta(int cont, List *lista, HashMap *rutas, int *total_rutas){
     itoa(*total_rutas,numerin,10);
     strcat (rutaoptima,numerin);
 
-    printf("Viaje guardado como %s",rutaoptima);
+    printf("Viaje guardado como %s.",rutaoptima);
     printf("\n");
-    printf("Distancia recorrida = %.2f\n",cont_distancia);
+    printf("Distancia recorrida = %.2f.\n",cont_distancia);
     printf("\n");
     
     insertMap(rutas,rutaoptima,viaje);
@@ -549,10 +566,17 @@ void mejorRuta(int cont, List *lista, HashMap *rutas, int *total_rutas){
 }
 
 void distancia_2puntos(List * lista){
+    coordenadas*auxMostrar=first(lista);
+    printf("id\tX\tY\n");
+    while (auxMostrar!=NULL){
+       printf("%d\t%d\t%d\n",get_nEntrega(auxMostrar), get_x(auxMostrar), get_y(auxMostrar));
+        auxMostrar=next(lista);
+    }
+    printf("\n");
     int entrega1, entrega2;
-    printf("ingrese entrega 1\n");
+    printf("Ingrese id entrega 1: \n");
     scanf("%d", &entrega1);
-    printf("ingrese entrega 2\n");
+    printf("ingrese id entrega 2: \n");
     scanf("%d", &entrega2);
     coordenadas*aux=first(lista);
     while (aux!=NULL){
@@ -573,6 +597,7 @@ void distancia_2puntos(List * lista){
     difY = pow(difY,2);
     float distancia = sqrt( difX + difY ); 
     //printf ("distancia = %.2f\n", distancia);
-    printf("la distancia entre las 2 entregas seleccionadas es: %.2f", distancia);
+    printf("La distancia entre la Entrega %d y la Entrega %d es: %.2f. \n",  entrega1, entrega2, distancia);
+    printf("\n");
 }
 

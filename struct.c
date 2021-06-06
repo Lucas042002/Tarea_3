@@ -48,13 +48,14 @@ void get_rutasPosibles(List *lista,int cont,coordenadas* cord){
             }
         }
     }
-
+    printf("DISTANCIA\tID\n");
+    printf("----------------------\n");
     for (int k=0;k<i;k++){
-        if ((vector[k]->yaPaso)==0){
-            printf ("distancia %.2f - id = %d\n",vector[k]->distancia, vector[k]->numeroEntrega);
+        if ((vector[k]->yaPaso)==0 && vector[k]->distancia!=0){
+            printf ("%.2f\t\t%d\n",vector[k]->distancia, vector[k]->numeroEntrega);
         }
     }
-        
+     printf("\n");   
     free(vector);
 
 }
@@ -109,7 +110,7 @@ void entregasCercanas (List* lista, int cont){
     scanf("%d", &x);
     printf("Ingrese variable Y:\n");
     scanf("%d", &y);
-    
+    printf("\n\n");
     //Se copia la lista original, en una modificable
     coordenadas*auxLista=first(lista);
     while (auxLista!=NULL){
@@ -149,10 +150,11 @@ void entregasCercanas (List* lista, int cont){
         }
     }
     
-
+printf("DISTANCIA\tID\n");
+printf("\n");
     for (int k=1;k<4;k++){
         
-            printf ("distancia %.2f - id = %d\n",vector[k]->distancia, vector[k]->numeroEntrega);
+            printf ("%.2f\t\t%d\n",vector[k]->distancia, vector[k]->numeroEntrega);
         
     }
 }
