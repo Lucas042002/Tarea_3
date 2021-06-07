@@ -27,6 +27,8 @@ void get_rutasPosibles(List *lista,int cont,coordenadas* cord){
     coordenadas*aux= first(lista);
     coordenadas**vector = malloc (sizeof(coordenadas)*cont);
     int i=0;
+    /*Recorre la lista que se le otorga a la funcion, que sera la que tenga todas las direcciones de las entregas para luego obtener las distancias en base
+    a un nodo o direccion, este es el cord, con el cual obtendran la distancia y modificaran el yaPaso a un 1.*/
     while (aux!=NULL){
         if (aux->yaPaso==0){ 
             aux->distancia = distancia (cord->numeroEntrega, aux->numeroEntrega, lista);
@@ -35,7 +37,7 @@ void get_rutasPosibles(List *lista,int cont,coordenadas* cord){
         }
         aux=next(lista);
     }
-    
+    /*En el vector anteriormente guardado se ordenan las structs en base a la distancia para mostrarlas por pantalla cada vez que se ocupe esta funcion*/
     coordenadas *swap;
     for (int c = 0 ; c < i-1 ; c++){
         for (int d = 0 ; d < i - c-1; d++){
@@ -104,7 +106,6 @@ void entregasCercanas (List* lista, int cont){
     
     int x, y;
     List *lista2 = createList(); //copia de lista modificable en funcion
-    
 
     printf("Ingrese variable X:\n");
     scanf("%d", &x);
@@ -150,8 +151,8 @@ void entregasCercanas (List* lista, int cont){
         }
     }
     
-printf("DISTANCIA\tID\n");
-printf("\n");
+    printf("DISTANCIA\tID\n");
+    printf("\n");
     for (int k=1;k<4;k++){
         
             printf ("%.2f\t\t%d\n",vector[k]->distancia, vector[k]->numeroEntrega);

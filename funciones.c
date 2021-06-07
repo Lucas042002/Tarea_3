@@ -114,7 +114,10 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
     int i = 0;
     int id;
     float cont_distancia=0;
-    
+    /*Para este codigo, lo que hace la funcion get_rutasPosibles, obtiene todas las distancias de los nodos cercanos a nuestro inicio y las modifica
+    en la lista 2. Luego el usuario elige a que entrega ir, y el cord que se usa a modo de "entrega actual" o "donde esta ubicados", se actualiza para
+    seguir obteniendo los nodos adyacentes. en la Lista viaje se guarda la ruta que va realizando, y el vector se ocupa a modo de registrar la ruta en 
+    orden*/
     while (i<cont-1){
         get_rutasPosibles(lista2, cont,cord);
         
@@ -136,8 +139,8 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
             }
             aux=next(lista2);
         }
-
         i++;
+        //Esta condicion sirve para insertar el ultimo nodo de la ruta generada, que sera en la ultima iteracion.
         if (i==cont-1){
             coordenadas*cordAux = crearCoordenadas(id,get_x(cord),get_y(cord),get_distancia(cord),0);
             pushBack(viaje,cordAux);
@@ -159,25 +162,18 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
 }
 
 void crearRutaAleatoria(int cont,List* lista,HashMap* rutas){
-
+    //Se reserva memoria a variables a usar, y listas
     int x, y;
-    List *lista2 = createList();
-    List *viaje = createList();
+    List *lista2 = createList(); 
+    List *viaje = createList();//Sera donde se guarde el viaje que realizo la persona
 
-    coordenadas*aux3=first(lista);
-    while (aux3!=NULL){
-        
-            printf("- %d -",get_nEntrega(aux3));
-        
-        aux3=next(lista);
-    }
     printf("\n");
-printf("\n");
+    printf("\n");
     printf("Ingrese variable X:\n");
     scanf("%d", &x);
     printf("Ingrese variable Y:\n");
     scanf("%d", &y);
-printf("\n");
+    printf("\n");
     //Se copia la lista original, en una modificable
     coordenadas*auxLista=first(lista);
     while (auxLista!=NULL){
@@ -193,17 +189,24 @@ printf("\n");
     
     int *vector,i = 0,id = 0;
     float cont_distancia=0;
+    /*Esta funcion genera un vector, con inicio en la entrega 6, que en este caso es la primera entrega. 
+    De ahi es aleatorio el orden de las siguientes entregas sin repeticion*/
     vector = generarVector(cont);
-printf("\n");
-printf("Ruta aleatoria generada:\n");
+    //Se muestra este vector.
+    printf("\n");
+    printf("Ruta aleatoria generada:\n");
     for (int i = 1 ;  i < cont;i++ ){
         if (i==cont-1)  printf("%d\n", vector[i]);
         else printf("%d -> ", vector[i]);
     }
     printf("\n");
+
     while (i<cont-1){
-        
+        /*A partir de la lista2 (que es una copia de la lista original de puntos), se obtienen las distancias, siendo cord la ubicacion 
+        actual de la persona. Desde el punto inicial entonces se generan distintas posibilidades*/
         get_rutasPosibles(lista2, cont ,cord);
+        /*Para moverse al siguiente punto, lo que primero hacemos es eliminar el punto de donde estamos ubicados a las posibilidades de las
+        siguientes distancias*/
         id=vector[i];
         coordenadas*aux=first(lista2);
         while (aux!=NULL){
@@ -214,11 +217,14 @@ printf("Ruta aleatoria generada:\n");
             }
             aux=next(lista2);
         }
+        //Esta condicion sirve para insertar el ultimo nodo de la ruta generada a partir del vector
         if (i==cont-1){
         coordenadas*cordAux = crearCoordenadas(id,get_x(cord),get_y(cord),get_distancia(cord),1);
             pushBack(viaje,cordAux);
         }
         i++;
+        /*En esta parte lo que se hace es avanzar al cord (que como se dijo antes es donde uno esta actualmente) al siguiente punto del vector generado y asi
+        avanzando por este hasta que se terminen las entregas*/
         id=vector[i];
         coordenadas*aux2=first(lista2);
         while (aux2!=NULL){
@@ -251,8 +257,6 @@ printf("Ruta aleatoria generada:\n");
     free(cord);
     
 }
-
-
 void mostrarRutas(HashMap* rutas, int cont){
     if (rutas == NULL || get_size(rutas)==0){
         printf("Aun no hay ninguna ruta ingresada.\n");
@@ -356,9 +360,10 @@ void mejorarRuta(int cont, List *lista, HashMap *rutas){
         if (xxyy==1 || xxyy ==0) break;
 
     }while(1==0);
-
+    /*Lo que se hace aca, es simplemente un cambio al vector original que describia el viaje, por lo que se uso el mismo codigo que en la funcion
+    crearRutaAleatoria*/
     if (xxyy==0){
-        //Si el cambio es manual
+        //Si el cambio es manual, se piden las entregas a cambiar
         printf("Indique entregas a cambiar.\n");
         printf("Entrega 1:\n");
         scanf("%d",&nEntrega1);
@@ -383,7 +388,7 @@ void mejorarRuta(int cont, List *lista, HashMap *rutas){
         printf("\n");
     }
     else{
-        //Si el cambio es automatico.
+        //Si el cambio es automatico, la maquina genera los numeros con ciertas condiciones
         srand (time(NULL));
         int swap;
         do{
@@ -410,7 +415,7 @@ void mejorarRuta(int cont, List *lista, HashMap *rutas){
         printf("\n");
     }
     
-    //Genero el viaje con las entregas cambiadas
+    //Genero el viaje con las entregas cambiadas, a partir de aca es el mismo codigo que anteriormente mencionamos, que genera la ruta a partir de un vector
     float cont_distancia=0;
     int id;
     coordenadas*aux2=first(listaSeleccionada);
@@ -448,9 +453,10 @@ void mejorarRuta(int cont, List *lista, HashMap *rutas){
             aux2=next(lista2);
         }
     }
-
+    //Muestro por pantalla los cambios
     printf("Distancia recorrida de la nueva ruta = %.2f\n",cont_distancia);
     printf("Distancia recorrida original = %.2f\n",distancia_original);
+    //Dependiendo de lo que sea se elije el mensaje.
     if (distancia_original<=cont_distancia){
         printf("La ruta original sigue siendo mas eficiente, no se hicieron cambios.\n");
     }
@@ -495,7 +501,9 @@ void mejorRuta(int cont, List *lista, HashMap *rutas, int *total_rutas){
     int i = 0;
     int id;
     float cont_distancia=0,menor_dist=0;
-    
+    /*Para esta funcion reciclamos el codigo utilizado en la opcion 4 de crear ruta, la diferencia es que aca se crea la ruta en base a la menor distancia
+    entre los nodos. Por lo que en cada situacion se ubica la id que representa el numero de entrega, mas cercano al cord, la posicion. Verificando que sea
+    la menor y ademas que no se haya pasado.*/
     while (i<cont-1){
         get_rutasPosibles(lista2, cont,cord);
         coordenadas*aux1=first(lista2);
@@ -532,6 +540,7 @@ void mejorRuta(int cont, List *lista, HashMap *rutas, int *total_rutas){
             pushBack(viaje,cordAux);
         }
     }
+    //Usamos una variable externa int que se va modificando a nivel de todo el codigo de manera que se van guardando con el nombre pedido y el numero.
     z++;
     *total_rutas+=z;
     char*rutaoptima=(char*)malloc(sizeof(char)*20);
