@@ -39,24 +39,22 @@ int *generarVector(int cont){
 }
 float distancia(int i,int j, List * lista){
     coordenadas*aux=first(lista);
+    //recorro la lista en buscando los puntos i,j para sacar la distancia entre ellos
     while (aux!=NULL){
         if (get_nEntrega(aux)==i)break;
         aux=next(lista);
     }
-    //printf ("aux = |x = %d |y = %d\n", get_x(aux), get_y(aux));
     coordenadas*aux2=first(lista);
     while (aux2!=NULL){
         if (get_nEntrega(aux2)==j)break;
         aux2=next(lista);
     }
-    //printf ("aux2 = |x = %d |y = %d\n", get_x(aux2), get_y(aux2));
+    //extraigo las variables x e y de cada punto y se aplica la formula de distancia entre 2 puntos
     int difX = get_x(aux)-get_x(aux2);
     int difY = get_y(aux)-get_y(aux2);
-    //printf ("difX = %d | difY = %d\n",difX, difY);
     difX = pow(difX,2);
     difY = pow(difY,2);
     float distancia = sqrt( difX + difY ); 
-    //printf ("distancia = %.2f\n", distancia);
     return distancia;
 }
 int  ImportarArchivo(FILE *texto, List * lista){
@@ -148,8 +146,6 @@ void crearRuta(int cont, List *lista, HashMap *rutas){
     char*nombre=(char*)malloc(sizeof(char));
     printf("Ingrese nombre de la ruta:\n");
     scanf("%s", nombre);
-    //coordenadas* ultima= crearCoordenadas(0,0,0, cont_distancia, 0);
-    //pushBack(viaje, ultima);
     printf("\n");
     printf("Distancia recorrida total= %.2f.\n",cont_distancia);
 
@@ -247,9 +243,6 @@ printf("Ruta aleatoria generada:\n");
 
     printf("\n");
     printf("Distancia total recorrida = %.2f.\n",cont_distancia);
-    //inserta la distancia total recorrida de la ruta y la guarda en la lista y luego en el mapa
-    //coordenadas* ultima= crearCoordenadas(0,0,0, cont_distancia, 0);
-    //pushBack(viaje, ultima);
     printf("\n");
     insertMap(rutas,nombre,viaje);
     
@@ -287,16 +280,10 @@ void mostrarRutas(HashMap* rutas, int cont){
         }
         //for que copia ciudad por ciudad en la struct que guarda los valores de la ruta
         for(int l=0;l<j;l++){
-            //vectorAux[i].vec[l]=(int*)malloc(sizeof(int));
-            /*el sub indice L e i, si se comporta como quiero, 
-            cuando ingresa por 3era vez al for con L=0 e I=2 
-            Muere aca: vectorAux[i]->vec[L]=vector[L] donde se copian las ciudades;*/
             vectorAux[i].vec[l]=vector[l];
         }
-        //copia la distancia del vector[i] en la struct
-        //printf("aaa\n");
+        //copia la distancia y nombre del vector[i] en la struct 
         vectorAux[i].nombre=get_key(rutas);
-        //printf("bbb\n");
         vectorAux[i].distancia=cont_dist;
         //aumento la posicion del vector para guardar una 2da ruta
         i++;
@@ -573,30 +560,29 @@ void distancia_2puntos(List * lista){
         auxMostrar=next(lista);
     }
     printf("\n");
+    //consulto los puntos a los cuales de los cuales quiere conseguir su distancia
     int entrega1, entrega2;
     printf("Ingrese id entrega 1: \n");
     scanf("%d", &entrega1);
     printf("ingrese id entrega 2: \n");
     scanf("%d", &entrega2);
+    //recorro la lista en busca de los puntos solicitado
     coordenadas*aux=first(lista);
     while (aux!=NULL){
         if (get_nEntrega(aux)==entrega1)break;
         aux=next(lista);
     }
-    //printf ("aux = |x = %d |y = %d\n", get_x(aux), get_y(aux));
     coordenadas*aux2=first(lista);
     while (aux2!=NULL){
         if (get_nEntrega(aux2)==entrega2)break;
         aux2=next(lista);
     }
-    //printf ("aux2 = |x = %d |y = %d\n", get_x(aux2), get_y(aux2));
+    //formula de distancia entre 2 puntos
     int difX = get_x(aux)-get_x(aux2);
     int difY = get_y(aux)-get_y(aux2);
-    //printf ("difX = %d | difY = %d\n",difX, difY);
     difX = pow(difX,2);
     difY = pow(difY,2);
     float distancia = sqrt( difX + difY ); 
-    //printf ("distancia = %.2f\n", distancia);
     printf("La distancia entre la Entrega %d y la Entrega %d es: %.2f. \n",  entrega1, entrega2, distancia);
     printf("\n");
 }
